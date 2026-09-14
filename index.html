@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Для Кати 💕</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💗</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Bad+Script&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Comfortaa', cursive;
+    background: linear-gradient(135deg, #ffe0ec 0%, #fff7fa 45%, #e9dcff 100%);
+    min-height: 100vh;
+    overflow: hidden;
+    color: #7a5560;
+  }
+  .slide {
+    position: fixed; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 60px 18px 30px;
+    opacity: 0; visibility: hidden;
+    transform: translateX(70px) scale(.97);
+    transition: all .6s ease;
+    overflow-y: auto; z-index: 2;
+  }
+  .slide.active { opacity: 1; visibility: visible; transform: none; }
+  .card {
+    background: rgba(255,255,255,.88);
+    backdrop-filter: blur(8px);
+    border-radius: 32px;
+    padding: 38px 34px;
+    max-width: 580px; width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(255,105,180,.28);
+    border: 4px solid rgba(255,255,255,.9);
+    position: relative;
+  }
+  h1 { color: #e84a7f; font-size: 1.9rem; margin: .3em 0; }
+  h2 { color: #e84a7f; font-size: 1.5rem; margin: .3em 0 .8em; line-height: 1.4; }
+  .cute-text { font-family: 'Bad Script', cursive; color: #8a6d7a; font-size: 1.3rem; line-height: 1.65; margin: .6em 0 1.2em; }
+  .q-num {
+    display: inline-block; background: #ffe3ee; color: #d6568a;
+    border-radius: 999px; padding: 6px 18px; font-size: .85rem; font-weight: 700;
+  }
+  .slide-img { width: min(320px, 80%); border-radius: 24px; margin: 6px auto 10px; display: block; filter: drop-shadow(0 8px 20px rgba(255,105,180,.3)); }
+  .btn {
+    background: linear-gradient(90deg, #ff8fb3, #ff5c95);
+    color: #fff; border: none; border-radius: 999px;
+    padding: 15px 38px; font-family: inherit; font-size: 1.1rem; font-weight: 700;
+    cursor: pointer; box-shadow: 0 8px 22px rgba(255,92,149,.45);
+    transition: transform .2s;
+  }
+  .btn:hover { transform: scale(1.07) rotate(-1.5deg); }
+  .option {
+    display: block; width: 100%; margin: 10px 0; padding: 14px 16px;
+    border-radius: 20px; border: 2px solid #ffc4d9; background: #fff;
+    color: #b04a6e; font-family: inherit; font-size: 1.05rem; cursor: pointer;
+    transition: all .2s;
+  }
+  .option:hover:not(:disabled) { background: #fff0f5; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(255,105,180,.2); }
+  .option:disabled { cursor: not-allowed; }
+  .option.wrong { opacity: .45; border-style: dashed; text-decoration: line-through; animation: shake .4s; }
+  .option.correct { background: linear-gradient(90deg,#ff8fb3,#ff5c95); color: #fff; border-color: transparent; animation: pop .5s; }
+  .hint { min-height: 1.4em; font-family: 'Bad Script', cursive; color: #d6568a; font-size: 1.1rem; margin-top: 8px; opacity: 0; transition: opacity .3s; }
+  .hint.show { opacity: 1; }
+  .progress { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; font-size: 24px; z-index: 5; }
+  .p-heart { filter: grayscale(1); opacity: .45; transition: all .3s; }
+  .p-heart.done { filter: none; opacity: 1; animation: pop .5s; }
+  .float-heart { position: fixed; bottom: -50px; z-index: 1; pointer-events: none; animation: rise linear forwards; }
+  .burst-heart { position: fixed; z-index: 50; pointer-events: none; animation: burst .9s cubic-bezier(.2,.6,.4,1) forwards; }
+  .date { color: #e84a7f; font-size: 1.35em; white-space: nowrap; }
+  .countdown { margin: 14px 0; font-size: .95rem; color: #a06b80; background: #ffeef4; border-radius: 16px; padding: 10px 14px; display: inline-block; }
+  .yes-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  #final-msg { display: none; font-family: 'Bad Script', cursive; font-size: 1.45rem; color: #d6568a; line-height: 1.6; margin-top: 14px; }
+  #final-msg.show { display: block; animation: pop .6s; }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+  @keyframes pop { 0%{transform:scale(1)} 40%{transform:scale(1.12)} 100%{transform:scale(1)} }
+  @keyframes rise { to { transform: translateY(-115vh) rotate(340deg); opacity: 0; } }
+  @keyframes burst { to { transform: translate(var(--dx), var(--dy)) scale(.3) rotate(200deg); opacity: 0; } }
+</style>
+</head>
+<body>
+
+<div class="progress">
+  <span class="p-heart" id="ph0">💗</span>
+  <span class="p-heart" id="ph1">💗</span>
+  <span class="p-heart" id="ph2">💗</span>
+</div>
+
+<!-- Слайд 0: вступление -->
+<div class="slide active" id="slide0">
+  <div class="card">
+    <h1>Привет, моя солнышко Катя! ☀️</h1>
+    <img class="slide-img" src="car.png" alt="" onerror="this.remove()">
+    <p class="cute-text">Я приготовил для тебя маленький сюрприз <3<br>
+    Впереди — три вопроса о нас. Отвечай внимательно:
+    в конце тебя ждёт кое-что очень важное… и очень пенное! 💦</p>
+    <button class="btn" onclick="go(1)">Начать 💕</button>
+  </div>
+</div>
+
+<!-- Слайд 1: вопрос 1 -->
+<div class="slide" id="slide1" data-q="1">
+  <div class="card">
+    <span class="q-num">Вопрос 1 из 3</span>
+    <h2>Дата моего рождения 🎂</h2>
+    <button class="option" data-ok="1">19.03.2005</button>
+    <button class="option">14.02.2004</button>
+    <button class="option">01.09.2006</button>
+    <p class="hint"></p>
+  </div>
+</div>
+
+<!-- Слайд 2: вопрос 2 -->
+<div class="slide" id="slide2" data-q="2">
+  <div class="card">
+    <span class="q-num">Вопрос 2 из 3</span>
+    <h2>На какой машине я езжу? 🚗</h2>
+    <button class="option">Toyota RAV4</button>
+    <button class="option" data-ok="1">Nissan X-Trail T31</button>
+    <button class="option">Велосипед «Кама» с турбонаддувом 🚲</button>
+    <p class="hint"></p>
+  </div>
+</div>
+
+<!-- Слайд 3: вопрос 3 -->
+<div class="slide" id="slide3" data-q="3">
+  <div class="card">
+    <span class="q-num">Вопрос 3 из 3</span>
+    <h2>Когда мы начали встречаться? 💞</h2>
+    <button class="option">08.03.2025</button>
+    <button class="option">01.01.2026</button>
+    <button class="option" data-ok="1">18.06.2026</button>
+    <p class="hint"></p>
+  </div>
+</div>
+
+<!-- Слайд 4: всё правильно -->
+<div class="slide" id="slide4">
+  <div class="card">
+    <h1>Урааа! 🎉</h1>
+    <p class="cute-text">Ты ответила на все вопросы правильно!<br>
+    Ты у меня самая внимательная (и самая любимая) 🥰<br><br>
+    Готова узнать, зачем всё это было? 👀</p>
+    <button class="btn" onclick="go(5)">Да, готова! 💖</button>
+  </div>
+</div>
+
+<!-- Слайд 5: приглашение -->
+<div class="slide" id="slide5">
+  <div class="card">
+    <h2>Катюша, приглашаю тебя помыть со мной машину! 🚗</h2>
+    <img class="slide-img" src="couple.png" alt="" onerror="this.remove()">
+    <p class="cute-text">Самое романтическое свидание на свете:<br>
+    <span class="date">суббота, 19 сентября 2026</span><br>
+    Пена, пузырики, наша любимая музыка — и мы вдвоём 💦❤️</p>
+    <div class="countdown" id="countdown"></div>
+    <div class="yes-row" id="yes-row">
+      <button class="btn" onclick="finalYes()">Да! 🥰</button>
+      <button class="btn" onclick="finalYes()">Конечно да! 😍</button>
+    </div>
+    <div id="final-msg">Урааа, это свидание! ❤️<br>Готовь губку — я принесу пену, музыку и самое хорошее настроение.<br>Люблю тебя! 😘</div>
+  </div>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  function go(n) {
+    slides.forEach(s => s.classList.remove('active'));
+    document.getElementById('slide' + n).classList.add('active');
+  }
+
+  const wrongMessages = [
+    'Хмм, не совсем… попробуй ещё раз, моя радость 🥺',
+    'Почти! Но нет. Ты справишься, любовь моя 💭',
+    'Не-а, солнышко. Подсказка: ответ ближе к сердцу ❤️'
+  ];
+
+  document.querySelectorAll('.option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const slide = btn.closest('.slide');
+      if (btn.dataset.ok) {
+        btn.classList.add('correct');
+        slide.querySelectorAll('.option').forEach(o => o.disabled = true);
+        const q = +slide.dataset.q;
+        document.getElementById('ph' + (q - 1)).classList.add('done');
+        burst(btn);
+        setTimeout(() => go(q + 1), 1100);
+      } else {
+        btn.classList.add('wrong');
+        btn.disabled = true;
+        const hint = slide.querySelector('.hint');
+        hint.textContent = wrongMessages[Math.floor(Math.random() * wrongMessages.length)];
+        hint.classList.add('show');
+      }
+    });
+  });
+
+  function finalYes() {
+    document.getElementById('yes-row').style.display = 'none';
+    document.getElementById('final-msg').classList.add('show');
+    for (let i = 0; i < 5; i++) setTimeout(() => burstAt(Math.random() * innerWidth, Math.random() * innerHeight * .7), i * 180);
+  }
+
+  function burst(el) {
+    const r = el.getBoundingClientRect();
+    burstAt(r.left + r.width / 2, r.top + r.height / 2);
+  }
+  function burstAt(x, y) {
+    const emojis = ['💗','💕','💖','❤️','🫧','✨'];
+    for (let i = 0; i < 22; i++) {
+      const h = document.createElement('span');
+      h.className = 'burst-heart';
+      h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      const a = Math.random() * Math.PI * 2, d = 70 + Math.random() * 130;
+      h.style.left = x + 'px'; h.style.top = y + 'px';
+      h.style.fontSize = (14 + Math.random() * 18) + 'px';
+      h.style.setProperty('--dx', Math.cos(a) * d + 'px');
+      h.style.setProperty('--dy', Math.sin(a) * d + 'px');
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 1000);
+    }
+  }
+
+  // плавающие сердечки на фоне
+  function spawnHeart() {
+    const h = document.createElement('div');
+    h.className = 'float-heart';
+    h.textContent = ['💗','💕','💖','🫧','❤️'][Math.floor(Math.random() * 5)];
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.fontSize = (14 + Math.random() * 24) + 'px';
+    h.style.animationDuration = (7 + Math.random() * 8) + 's';
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 16000);
+  }
+  for (let i = 0; i < 8; i++) setTimeout(spawnHeart, i * 300);
+  setInterval(spawnHeart, 650);
+
+  // обратный отсчёт до 19 сентября 2026
+  const target = new Date(2026, 8, 19, 10, 0, 0);
+  function tick() {
+    const diff = target - new Date();
+    const el = document.getElementById('countdown');
+    if (diff <= 0) { el.textContent = '🎉 Этот день наступил!'; return; }
+    const d = Math.floor(diff / 864e5),
+          h = String(Math.floor(diff / 36e5) % 24).padStart(2, '0'),
+          m = String(Math.floor(diff / 6e4) % 60).padStart(2, '0'),
+          s = String(Math.floor(diff / 1e3) % 60).padStart(2, '0');
+    el.textContent = `⏳ До великого дня: ${d} дн. ${h}:${m}:${s}`;
+  }
+  tick(); setInterval(tick, 1000);
+</script>
+</body>
+</html>
